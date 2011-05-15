@@ -1,3 +1,10 @@
+"""
+Copyright 2011 Michael Bachmann
+
+This program is distributed under the terms of the GNU
+General Public License
+"""
+
 import pygame, random
 pygame.init()
 
