@@ -2,7 +2,7 @@ import pygame, random
 pygame.init()
 
 from DuckLib import *
-from WorldState import *
+#from WorldState import *
 
 
 
