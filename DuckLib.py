@@ -11,15 +11,15 @@ pygame.init()
 #Load in images
 dogImg = [pygame.image.load("DogIdle.gif"),
           pygame.image.load("DogDuck.gif")]
-duckImg = [[pygame.image.load("duckUD1.gif"),
-            pygame.image.load("duckUD2.gif"),
-            pygame.image.load("duckUD3.gif")],
-           [pygame.image.load("duckF1.gif"),
-            pygame.image.load("duckF2.gif"),
-            pygame.image.load("duckF3.gif")],
-           [pygame.image.load("duckShot.gif")],
-           [pygame.image.load("duckFall.gif"),
-            pygame.transform.flip(pygame.image.load("duckFall.gif"), True, False)]]
+duckImg = [[pygame.image.load("DuckUD1.gif"),
+            pygame.image.load("DuckUD2.gif"),
+            pygame.image.load("DuckUD3.gif")],
+           [pygame.image.load("DuckF1.gif"),
+            pygame.image.load("DuckF2.gif"),
+            pygame.image.load("DuckF3.gif")],
+           [pygame.image.load("DuckShot.gif")],
+           [pygame.image.load("DuckFall.gif"),
+            pygame.transform.flip(pygame.image.load("DuckFall.gif"), True, False)]]
 negaDuckImg = [[pygame.image.load("DarkwingSp.gif")],
                [pygame.image.load("DarkwingFlap.gif"),
                 pygame.image.load("DarkwingFlap2.gif")]]
