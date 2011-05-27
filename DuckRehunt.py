@@ -13,7 +13,7 @@ from DuckLib import *
 
 
 
-screen = pygame.display.set_mode((640,480))
+screen     = pygame.display.set_mode((640,480))
 screen_dim = screen.get_rect()
 
 ##class World():
@@ -28,25 +28,27 @@ def main():
     pygame.mixer.init()
     pygame.mixer.Sound("Music.ogg").play(-1)
 
-    background = pygame.Surface(screen.get_size())
+    background     = pygame.Surface(screen.get_size())
     background.blit(pygame.image.load("Background.gif"), (0,0))
     screen.blit(background, (0,0))
 
-    foreground = setPiece(pygame.image.load("Foreground.gif"), (0,301))
-    setSprites = pygame.sprite.Group(foreground)
+    
+    foreground     = setPiece(pygame.image.load("Foreground.gif"), (0,301), 1 )
+    hud            = setPiece(pygame.image.load("Hud.gif"), (22, 400), 3 )
+    setSprites     = pygame.sprite.LayeredUpdates( foreground , hud)
 
     dSprites.add(Dog())
 
     crosshair = pygame.sprite.Group(Crosshair())
                           
     keepGoing = True
-    pause = 0
-    delay = 60
+    pause     = 0
+    delay     = 60
     shotScore = 0
-    global score
+    global score, ducks
 
-    scoreFont = pygame.font.Font("HelveticaWorld.ttf",20)
-    scoreboard = scoreFont.render("Score: %d" % score, 1, (255,255,255))
+    scoreFont = pygame.font.Font("duckhunt.ttf",20)
+    scoreboard = scoreFont.render("%d" % score, 1, (255,255,255))
 
     
     clock = pygame.time.Clock()
@@ -76,7 +78,7 @@ def main():
                     shotScore *= len(pointCollide)
                     score += shotScore
                     shotScore = 0
-                    scoreboard = scoreFont.render("Score: %d" % score, 1, (255,255,255))
+                    scoreboard = scoreFont.render("%d" % score, 1, (255,255,255))
 
     
         #Garbage collection        
@@ -95,7 +97,7 @@ def main():
         
         dSprites.draw(screen)
         setSprites.draw(screen)
-        screen.blit(scoreboard, (500,440))
+        screen.blit(scoreboard, (540,410))
         flash.draw(screen)
         crosshair.draw(screen)
         pygame.display.flip()

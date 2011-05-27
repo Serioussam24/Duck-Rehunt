@@ -9,27 +9,28 @@ import pygame, random
 pygame.init()
 
 #Load in images
-dogImg = [pygame.image.load("DogIdle.gif"),
-          pygame.image.load("DogDuck.gif")]
-duckImg = [[pygame.image.load("duckUD1.gif"),
-            pygame.image.load("duckUD2.gif"),
-            pygame.image.load("duckUD3.gif")],
-           [pygame.image.load("duckF1.gif"),
-            pygame.image.load("duckF2.gif"),
-            pygame.image.load("duckF3.gif")],
-           [pygame.image.load("duckShot.gif")],
-           [pygame.image.load("duckFall.gif"),
-            pygame.transform.flip(pygame.image.load("duckFall.gif"), True, False)]]
+dogImg      =  [pygame.image.load("DogIdle.gif"),
+                pygame.image.load("DogDuck.gif")]
+duckImg     = [[pygame.image.load("duckUD1.gif"),
+                pygame.image.load("duckUD2.gif"),
+                pygame.image.load("DuckUD3.gif")],
+               [pygame.image.load("DuckF1.gif"),
+                pygame.image.load("DuckF2.gif"),
+                pygame.image.load("DuckF3.gif")],
+               [pygame.image.load("DuckShot.gif")],
+               [pygame.image.load("DuckFall.gif"),
+                pygame.transform.flip(pygame.image.load("DuckFall.gif"), True, False)]]
 negaDuckImg = [[pygame.image.load("DarkwingSp.gif")],
                [pygame.image.load("DarkwingFlap.gif"),
                 pygame.image.load("DarkwingFlap2.gif")]]
 
 #Load in Sound
-gunshot = pygame.mixer.Sound("Gunshot.ogg")
-quack = pygame.mixer.Sound("Quack.ogg")
+gunshot    = pygame.mixer.Sound("Gunshot.ogg")
+quack      = pygame.mixer.Sound("Quack.ogg")
 
-dSprites = pygame.sprite.Group()
-flash = pygame.sprite.Group()
+dSprites   = pygame.sprite.Group()
+healthBars = pygame.sprite.Group()
+flash      = pygame.sprite.Group()
 
 score = 0
 
@@ -37,37 +38,33 @@ class NegaDuck(pygame.sprite.Sprite):
 
     def __init__(self, dogHand):
         pygame.sprite.Sprite.__init__(self)
-        self.image = negaDuckImg[0][0]
-        self.image = self.image.convert()
+        self.image         = negaDuckImg[0][0]
+        self.image         = self.image.convert()
         self.image.set_colorkey((0,0,255))
-        self.rect = self.image.get_rect()
-        self.rect.center = (dogHand.rect.center)
+        self.rect          = self.image.get_rect()
+        self.rect.center   = (dogHand.rect.center)
         self.rect.centerx += 60
-        self.changeDelay = 0
-        self.dog = False
-        self.enemy = True
+        self.changeDelay   = 0
+        self.dog           = False
+        self.enemy         = True
 
 
         #Death Animation Vars
-        self.isDead = False
+        self.isDead    = False
         self.deadDelay = 10
         
         #Normal Animation Vars
-        self.anim = []
+        self.anim      = []
         self.animDelay = 15
-        self.frame = 0
-        self.pause = 0
+        self.frame     = 0
+        self.pause     = 0
 
         
-        while True:
+        while 1:
             self.dx = random.randrange(-4,4)
             self.dy = random.randrange(-4,4)
             if not (self.dx,self.dy) == (0,0):
                 break
-
-        #if score >= 100:
-            #self.dx *= 1.2
-            #self.dy *= 1.2
 
         self.setAnim()
             
@@ -76,9 +73,6 @@ class NegaDuck(pygame.sprite.Sprite):
         if not self.isDead:
             self.rect.centerx += self.dx
             self.rect.centery += self.dy
-            #self.changeDelay += 1
-            #if self.changeDelay > 5:
-                #self.changeDelay = 0
             self.changeDir()
             self.animate()
 
@@ -123,37 +117,33 @@ class NegaDuck(pygame.sprite.Sprite):
     def changeDir(self):
 
         if self.rect.left < 0:
-            while True:
-                self.dx = random.randrange(0,4)
-                self.dy = random.randrange(-4,4)
+            while 1:
+                self.dx        = random.randrange(0,4)
+                self.dy        = random.randrange(-4,4)
                 self.rect.left = 0
                 if (self.dx,self.dy) != (0,0):
                     break
         if self.rect.right > 640:
-            while True:
-                self.dx = random.randrange(-4,0)
-                self.dy = random.randrange(-4,4)
+            while 1:
+                self.dx         = random.randrange(-4,0)
+                self.dy         = random.randrange(-4,4)
                 self.rect.right = 640
                 if (self.dx,self.dy) != (0,0):
                     break
         if self.rect.top < 0:
-            while True:
-                self.dx = random.randrange(-4,4)
-                self.dy = random.randrange(0,4)
+            while 1:  
+                self.dx       = random.randrange(-4,4)
+                self.dy       = random.randrange(0,4)
                 self.rect.top = 0
                 if (self.dx,self.dy) != (0,0):
                     break
         if self.rect.bottom > 301:
-            while True:
-                self.dx = random.randrange(-4,4)
-                self.dy = random.randrange(-4,0)
+            while 1:
+                self.dx          = random.randrange(-4,4)
+                self.dy          = random.randrange(-4,0)
                 self.rect.bottom = 301
                 if (self.dx,self.dy) != (0,0):
                     break
-
-        #if score > 100:
-    
-            
 
         self.setAnim()
 
@@ -164,30 +154,32 @@ class NegaDuck(pygame.sprite.Sprite):
         else:
             self.anim = negaDuckImg[1]
 
+
+
 class Duck(pygame.sprite.Sprite):
 
     def __init__(self, dogHand):
         pygame.sprite.Sprite.__init__(self)
-        self.image = duckImg[2][0]
-        self.image = self.image.convert()
+        self.image         = duckImg[2][0]
+        self.image         = self.image.convert()
         self.image.set_colorkey((136,216,0))
-        self.rect = self.image.get_rect()
-        self.rect.center = (dogHand.rect.center)
+        self.rect          = self.image.get_rect()
+        self.rect.center   = (dogHand.rect.center)
         self.rect.centerx += 60
-        self.changeDelay = 0
-        self.dog = False
-        self.enemy = False
+        self.changeDelay   = 0
+        self.dog           = False
+        self.enemy         = False
 
 
         #Death Animation Vars
-        self.isDead = False
+        self.isDead    = False
         self.deadDelay = 10
         
         #Normal Animation Vars
-        self.anim = []
+        self.anim      = []
         self.animDelay = 15
-        self.frame = 0
-        self.pause = 0
+        self.frame     = 0
+        self.pause     = 0
 
         
         while True:
@@ -195,10 +187,6 @@ class Duck(pygame.sprite.Sprite):
             self.dy = random.randrange(-4,4)
             if not (self.dx,self.dy) == (0,0):
                 break
-
-        #if score >= 100:
-            #self.dx *= 1.2
-            #self.dy *= 1.2
 
         self.setAnim()
             
@@ -208,9 +196,6 @@ class Duck(pygame.sprite.Sprite):
         if not self.isDead:
             self.rect.centerx += self.dx
             self.rect.centery += self.dy
-            #self.changeDelay += 1
-            #if self.changeDelay > 5:
-                #self.changeDelay = 0
             self.changeDir()
             self.animate()
 
@@ -255,30 +240,30 @@ class Duck(pygame.sprite.Sprite):
     def changeDir(self):
 
         if self.rect.left < 0:
-            while True:
-                self.dx = random.randrange(0,4)
-                self.dy = random.randrange(-4,4)
+            while 1:
+                self.dx        = random.randrange(0,4)
+                self.dy        = random.randrange(-4,4)
                 self.rect.left = 0
                 if (self.dx,self.dy) != (0,0):
                     break
         if self.rect.right > 640:
-            while True:
-                self.dx = random.randrange(-4,0)
-                self.dy = random.randrange(-4,4)
+            while 1:
+                self.dx         = random.randrange(-4,0)
+                self.dy         = random.randrange(-4,4)
                 self.rect.right = 640
                 if (self.dx,self.dy) != (0,0):
                     break
         if self.rect.top < 0:
-            while True:
-                self.dx = random.randrange(-4,4)
-                self.dy = random.randrange(0,4)
+            while 1:
+                self.dx       = random.randrange(-4,4)
+                self.dy       = random.randrange(0,4)
                 self.rect.top = 0
                 if (self.dx,self.dy) != (0,0):
                     break
         if self.rect.bottom > 301:
-            while True:
-                self.dx = random.randrange(-4,4)
-                self.dy = random.randrange(-4,0)
+            while 1:
+                self.dx          = random.randrange(-4,4)
+                self.dy          = random.randrange(-4,0)
                 self.rect.bottom = 301
                 if (self.dx,self.dy) != (0,0):
                     break
@@ -303,18 +288,18 @@ class Dog(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = dogImg[1]
-        self.image = self.image.convert()
+        self.image        = dogImg[1]
+        self.image        = self.image.convert()
         self.image.set_colorkey((0,0,255))
-        self.rect = self.image.get_rect()
-        self.rect.center = (random.randrange(45,595),440)
-        self.spawn = True
-        self.release = False
-        self.retreat = False
-        self.dog = True
-        self.enemy = False
+        self.rect         = self.image.get_rect()
+        self.rect.center  = (random.randrange(45,595),440)
+        self.spawn        = True
+        self.release      = False
+        self.retreat      = False
+        self.dog          = True
+        self.enemy        = False
         self.releaseSpeed = 2
-        self.negaCounter = 0
+        self.negaCounter  = 0
         global score
 
         
@@ -332,10 +317,10 @@ class Dog(pygame.sprite.Sprite):
         if self.spawn:
             self.rect.centery -= self.releaseSpeed
             if self.rect.top <= 200:
-                self.spawn = False
+                self.spawn   = False
                 self.release = True
                 self.retreat = False
-                self.image = dogImg[0]
+                self.image   = dogImg[0]
                 self.image.set_colorkey((0,0,255))               
 
                 
@@ -355,7 +340,7 @@ class Dog(pygame.sprite.Sprite):
         elif self.retreat:
             self.rect.centery += self.releaseSpeed
             if self.rect.top > 320:
-                self.spawn = True
+                self.spawn   = True
                 self.retreat = False
                 self.release = False
                 self.reset()
@@ -363,30 +348,33 @@ class Dog(pygame.sprite.Sprite):
     def reset(self):
 
         self.rect.center = (random.randrange(45,595),440)
-        self.spawn = True
-        self.image = dogImg[1]
+        self.spawn       = True
+        self.image       = dogImg[1]
         self.image.set_colorkey((0,0,255))
 
 
 class setPiece(pygame.sprite.Sprite):
 
-    def __init__(self, image, topleft):
+    def __init__(self, image, topleft, layer):
         pygame.sprite.Sprite.__init__(self)
-        self.image = image
-        self.image = self.image.convert()
-        self.rect = self.image.get_rect()
+        self.image        = image
+        self.image        = self.image.convert()
+        self.image.set_colorkey( ( 0 , 0 , 255) )
+        self.rect         = self.image.get_rect()
         self.rect.topleft = topleft
+        self.layer        = layer
 
     def update(self):
-        """"""
+        pass
+
 
 class Crosshair(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("Crosshair.gif")
-        self.image = self.image.convert()
-        self.rect = self.image.get_rect()
+        self.image       = pygame.image.load("Crosshair.gif")
+        self.image       = self.image.convert()
+        self.rect        = self.image.get_rect()
         self.rect.center = pygame.mouse.get_pos()
 
     def update(self):
@@ -398,15 +386,17 @@ class Flash(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("Gunshot.gif")
-        self.image = self.image.convert()
-        self.rect = self.image.get_rect()
+        self.image       = pygame.image.load("Gunshot.gif")
+        self.image       = self.image.convert()
+        self.rect        = self.image.get_rect()
         self.rect.center = pygame.mouse.get_pos()
-        self.pause = 0
+        self.pause       = 0
 
     def update(self):
         self.pause += 1
         if self.pause >= 5:
             flash.remove(self)
+
+
             
         
